@@ -4,9 +4,9 @@ import android.app.Dialog;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import com.teamwork.android.BaseActivity;
 import com.teamwork.android.R;
 
 import rx.Observable;
@@ -23,7 +23,7 @@ public class RxUtil {
      *
      * Use with {@link Observable#compose(Observable.Transformer)}.
      */
-    public static <T> Observable.Transformer<T,T> forUi(BaseActivity activity) {
+    public static <T> Observable.Transformer<T,T> forUi(FragmentActivity activity) {
 
         return o -> o
             .observeOn(AndroidSchedulers.mainThread())
@@ -32,7 +32,7 @@ public class RxUtil {
     }
 
     /** Emits an item when the activity is destroyed */
-    private static Observable<?> isDestroyed(BaseActivity activity) {
+    private static Observable<?> isDestroyed(FragmentActivity activity) {
 
         return Observable.create(subscriber -> {
             activity.getLifecycle().addObserver(new LifecycleObserver() {

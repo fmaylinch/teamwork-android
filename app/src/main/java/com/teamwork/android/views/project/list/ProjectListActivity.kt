@@ -1,7 +1,9 @@
-package com.teamwork.android
+package com.teamwork.android.views.project.list
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import com.teamwork.android.R
+import com.teamwork.android.views.BaseActivity
 import com.teamwork.android.model.ProjectList
 import kotlinx.android.synthetic.main.activity_project_list.*
 import kotlinx.android.synthetic.main.content_project_list.*

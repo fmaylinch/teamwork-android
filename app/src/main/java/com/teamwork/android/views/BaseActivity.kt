@@ -1,7 +1,9 @@
-package com.teamwork.android
+package com.teamwork.android.views
 
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import com.teamwork.android.ProjectApp
+import com.teamwork.android.R
 import com.teamwork.android.util.RxUtil
 import rx.Observable
 

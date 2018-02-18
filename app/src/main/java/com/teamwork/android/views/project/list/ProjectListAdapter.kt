@@ -1,9 +1,10 @@
-package com.teamwork.android
+package com.teamwork.android.views.project.list
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.teamwork.android.R
 import com.teamwork.android.model.Project
 import com.teamwork.android.util.inflate
 import kotlinx.android.synthetic.main.view_project_item.view.*

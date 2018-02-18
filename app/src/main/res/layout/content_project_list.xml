@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.teamwork.android.ProjectListActivity"
+    tools:context=".views.project.list.ProjectListActivity"
     tools:showIn="@layout/activity_project_list">
 
     <android.support.v7.widget.RecyclerView
