@@ -25,14 +25,15 @@ class ProjectDetailActivity : BaseActivity<Project>() {
         val project = getArgument()
         title = project.name
 
-        setupViews()
+        setupViews(project)
         loadTaskLists(project)
     }
 
-    private fun setupViews() {
+    private fun setupViews(project: Project) {
 
         val adapter = ProjectDetailAdapter()
         adapter.loadTasks = this::loadTasks
+        adapter.project = project
 
         project_details_list.adapter = adapter
         project_details_list.layoutManager = LinearLayoutManager(this)
