@@ -4,14 +4,18 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.teamwork.android.ProjectApp
+import com.teamwork.android.R
 import com.teamwork.android.model.TaskList
+import com.teamwork.android.util.inflate
+import kotlinx.android.synthetic.main.view_task_list_header.view.*
 
 /**
  * Displays [TaskList]s (one in each section).
  * The section header displays the [TaskList] name and
  * the section items display the [Task] of that [TaskList].
  */
-class ProjectDetailAdapter : SectionedRecyclerViewAdapter<ProjectDetailAdapter.Holder>() {
+class ProjectDetailAdapter : SectionedRecyclerViewAdapter<RecyclerView.ViewHolder>() {
 
     var taskLists: List<TaskList> = emptyList()
 
@@ -19,15 +23,15 @@ class ProjectDetailAdapter : SectionedRecyclerViewAdapter<ProjectDetailAdapter.H
         TASK_LIST_HEADER, TASK_ITEM
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         val type = ViewType.values()[viewType]
 
         return when (type) {
             ViewType.TASK_LIST_HEADER ->
-                Holder(TextView(parent.context)) // TODO: inflate view
+                TaskListHeaderHolder(parent.inflate(R.layout.view_task_list_header))
             ViewType.TASK_ITEM ->
-                Holder(TextView(parent.context)) // TODO: inflate view
+                TaskItemHolder(TextView(parent.context)) // TODO: inflate view
         }
     }
 
@@ -43,15 +47,22 @@ class ProjectDetailAdapter : SectionedRecyclerViewAdapter<ProjectDetailAdapter.H
         return getViewType(coord).ordinal
     }
 
-    override fun onBindViewHolder(vh: Holder, coord: ItemCoord) {
+    override fun onBindViewHolder(vh: RecyclerView.ViewHolder, coord: ItemCoord) {
 
-        val textView = vh.itemView as TextView
+        val taskList = taskLists[coord.section]
 
         when (getViewType(coord)) {
-            ViewType.TASK_LIST_HEADER ->
-                textView.text = taskLists[coord.section].name
-            ViewType.TASK_ITEM ->
-                textView.text = taskLists[coord.section].tasks?.get(coord.index)?.name
+
+            ViewType.TASK_LIST_HEADER -> {
+                val holder = vh as TaskListHeaderHolder
+                holder.name.text = taskList.name
+                holder.numTasks.text = ProjectApp.instance.getString(R.string.number_of_tasks, taskList.numTasks)
+            }
+
+            ViewType.TASK_ITEM -> {
+                val textView = vh.itemView as TextView
+                textView.text = taskList.tasks?.get(coord.index)?.name
+            }
         }
     }
 
@@ -59,7 +70,13 @@ class ProjectDetailAdapter : SectionedRecyclerViewAdapter<ProjectDetailAdapter.H
         return if (coord.header) ViewType.TASK_LIST_HEADER else ViewType.TASK_ITEM
     }
 
-    class Holder(view: View) : RecyclerView.ViewHolder(view) {
-        // TODO: add more details
+    class TaskListHeaderHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        val name: TextView = view.name
+        val numTasks: TextView = view.num_tasks
+    }
+
+    class TaskItemHolder(view: View) : RecyclerView.ViewHolder(view) { // TODO
+
     }
 }
