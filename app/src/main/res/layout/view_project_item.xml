@@ -1,19 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:clickable="true"
     android:focusable="true">
 
-    <TextView
-        android:id="@+id/name"
-        android:textSize="20sp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:padding="20dp"
-        android:background="@drawable/project_background"
-        />
+        android:background="@drawable/project_background">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:singleLine="true"
+            tools:text="Cool project"
+            />
+
+        <TextView
+            android:id="@+id/company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:maxWidth="100dp"
+            android:textSize="15sp"
+            android:singleLine="true"
+            tools:text="Cool company"
+            />
+
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

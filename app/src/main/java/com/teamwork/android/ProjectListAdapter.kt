@@ -22,12 +22,15 @@ class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ViewHolder>()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.text.text = projects[position].name // TODO: display more data?
+        val project = projects[position]
+        holder.project.text = project.name
+        holder.company.text = project.company.name
     }
 
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val text: TextView = view.name
+        val project: TextView = view.name
+        val company: TextView = view.company
     }
 }
