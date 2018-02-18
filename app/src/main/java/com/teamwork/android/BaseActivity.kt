@@ -7,9 +7,12 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected val api = ProjectApp.instance.api
 
-    protected fun displayError(error: Throwable?) {
+    protected fun displayError(error: Throwable) {
+
         // TODO: Improve error
         val text = "Connection error"
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+
+        error.printStackTrace()
     }
 }
