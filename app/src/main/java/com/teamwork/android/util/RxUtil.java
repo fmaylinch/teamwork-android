@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
-import android.util.Log;
 
 import com.teamwork.android.BaseActivity;
 
@@ -12,13 +11,13 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
 import static android.arch.lifecycle.Lifecycle.Event.ON_DESTROY;
-import static android.content.ContentValues.TAG;
 
 public class RxUtil {
 
     /**
      * Convenience method for handling {@link Observable}s from the UI.
-     * Observes on main thread, unsubscribes when activity is destroyed.
+     * Observes on main thread, unsubscribes when activity is destroyed and
+     * displays a loading dialog (cancelable).
      *
      * Use with {@link Observable#compose(Observable.Transformer)}.
      */
@@ -58,10 +57,7 @@ public class RxUtil {
             public Observable<T> call(Observable<T> observable) {
 
                 final Observable<T> result = observable
-                    .doOnSubscribe(() ->{
-                        Log.i(TAG, "Showing dialog");
-                        dialog.show();
-                    })
+                    .doOnSubscribe(() -> dialog.show())
                     .doOnCompleted(() -> LoadingDialog.safeDismiss(dialog))
                     .doOnError(error -> LoadingDialog.safeDismiss(dialog));
 
@@ -75,6 +71,7 @@ public class RxUtil {
             /** Emits an item when the dialog is cancelled */
             private Observable<?> isDialogCancelled() {
                 return Observable.create(subscriber -> {
+                    dialog.setCancelable(true);
                     dialog.setOnCancelListener(d -> {
                         subscriber.onNext("item");
                     });
