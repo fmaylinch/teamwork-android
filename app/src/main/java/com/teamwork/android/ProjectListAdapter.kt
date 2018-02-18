@@ -5,29 +5,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.teamwork.android.model.Project
+import com.teamwork.android.util.inflate
+import kotlinx.android.synthetic.main.view_project_item.view.*
 
 class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ViewHolder>() {
 
     var projects: List<Project> = emptyList()
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val view = TextView(parent?.context) // TODO: inflate layout
+        val view = parent.inflate(R.layout.view_project_item)
         return ViewHolder(view)
     }
 
     override fun getItemCount(): Int = projects.size
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        if (holder != null) {
-            holder.text.text = projects[position].name // TODO: display more data
-        }
+        holder.text.text = projects[position].name // TODO: display more data?
     }
 
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val text: TextView = view as TextView // TODO: keep more data
+        val text: TextView = view.name
     }
 }
