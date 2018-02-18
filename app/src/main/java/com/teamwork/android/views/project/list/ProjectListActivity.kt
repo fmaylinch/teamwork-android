@@ -5,12 +5,11 @@ import android.support.v7.widget.LinearLayoutManager
 import com.teamwork.android.R
 import com.teamwork.android.model.Project
 import com.teamwork.android.views.BaseActivity
-import com.teamwork.android.model.ProjectList
+import com.teamwork.android.model.ProjectsResult
 import com.teamwork.android.views.NoArg
 import com.teamwork.android.views.project.detail.ProjectDetailActivity
 import kotlinx.android.synthetic.main.activity_project_list.*
 import kotlinx.android.synthetic.main.content_project_list.*
-import rx.android.schedulers.AndroidSchedulers.mainThread
 
 /**
  * List of [Project]s.
@@ -40,18 +39,15 @@ class ProjectListActivity : BaseActivity<NoArg>() {
 
         api.projectList()
                 .compose(forUi())
-                .observeOn(mainThread())
                 .subscribe(
                         { displayProjects(it) },
                         { displayNetworkError(it) })
     }
 
-    private fun displayProjects(projectList: ProjectList?) {
+    private fun displayProjects(result: ProjectsResult) {
 
-        if (projectList != null) {
-            (project_list.adapter as ProjectListAdapter).projects = projectList.projects
-            project_list.adapter.notifyDataSetChanged()
-        }
+        (project_list.adapter as ProjectListAdapter).projects = result.projects
+        project_list.adapter.notifyDataSetChanged()
     }
 
     private fun displayProject(project: Project) {

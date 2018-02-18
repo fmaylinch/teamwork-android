@@ -9,17 +9,10 @@
     tools:context="com.teamwork.android.views.project.detail.ProjectDetailActivity"
     tools:showIn="@layout/activity_project_detail">
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/project_details_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Contents of project here"/> <!-- TODO -->
-
-    </LinearLayout>
-
+        android:layout_height="match_parent"
+        />
 
 </android.support.v4.widget.NestedScrollView>

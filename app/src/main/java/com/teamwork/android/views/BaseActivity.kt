@@ -6,7 +6,6 @@ import android.widget.Toast
 import com.teamwork.android.ProjectApp
 import com.teamwork.android.R
 import com.teamwork.android.util.RxUtil
-import com.teamwork.android.views.project.detail.ProjectDetailActivity
 import rx.Observable
 import java.io.Serializable
 
