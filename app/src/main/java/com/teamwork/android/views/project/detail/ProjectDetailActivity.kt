@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.teamwork.android.R
 import com.teamwork.android.model.Project
+import com.teamwork.android.model.TaskList
 import com.teamwork.android.model.TaskListsResult
+import com.teamwork.android.model.TasksResult
 import com.teamwork.android.views.BaseActivity
 import kotlinx.android.synthetic.main.activity_project_detail.*
 import kotlinx.android.synthetic.main.content_project_detail.*
@@ -30,6 +32,8 @@ class ProjectDetailActivity : BaseActivity<Project>() {
     private fun setupViews() {
 
         val adapter = ProjectDetailAdapter()
+        adapter.loadTasks = this::loadTasks
+
         project_details_list.adapter = adapter
         project_details_list.layoutManager = LinearLayoutManager(this)
     }
@@ -46,6 +50,21 @@ class ProjectDetailActivity : BaseActivity<Project>() {
     private fun displayTaskLists(result: TaskListsResult) {
 
         (project_details_list.adapter as ProjectDetailAdapter).taskLists = result.tasklists
+        project_details_list.adapter.notifyDataSetChanged()
+    }
+
+    private fun loadTasks(taskList: TaskList) {
+
+        api.tasks(taskList.id)
+                .compose(forUi())
+                .subscribe(
+                        { updateTaskListItems(taskList, it) },
+                        { displayNetworkError(it) })
+    }
+
+    private fun updateTaskListItems(taskList: TaskList, result: TasksResult) {
+
+        taskList.tasks = result.items
         project_details_list.adapter.notifyDataSetChanged()
     }
 }

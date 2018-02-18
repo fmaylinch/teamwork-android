@@ -4,6 +4,6 @@ import java.io.Serializable
 
 data class Task(
 
-        var name: String
+        var content: String
 
 ) : Serializable

@@ -2,6 +2,7 @@ package com.teamwork.android.api
 
 import com.teamwork.android.model.ProjectsResult
 import com.teamwork.android.model.TaskListsResult
+import com.teamwork.android.model.TasksResult
 
 import retrofit.http.GET
 import retrofit.http.Path
@@ -14,4 +15,7 @@ interface Api {
 
     @GET("/projects/{id}/tasklists.json")
     fun taskLists(@Path("id") projectId: String) : Observable<TaskListsResult>
+
+    @GET("/tasklists/{id}/tasks.json")
+    fun tasks(@Path("id") taskListId: String) : Observable<TasksResult>
 }

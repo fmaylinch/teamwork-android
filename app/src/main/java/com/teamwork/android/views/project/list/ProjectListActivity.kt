@@ -31,6 +31,7 @@ class ProjectListActivity : BaseActivity<NoArg>() {
 
         val adapter = ProjectListAdapter()
         adapter.onItemClick = { displayProject(it) }
+
         project_list.adapter = adapter
         project_list.layoutManager = LinearLayoutManager(this)
     }

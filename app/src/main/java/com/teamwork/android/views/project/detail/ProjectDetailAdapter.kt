@@ -8,6 +8,7 @@ import com.teamwork.android.ProjectApp
 import com.teamwork.android.R
 import com.teamwork.android.model.TaskList
 import com.teamwork.android.util.inflate
+import kotlinx.android.synthetic.main.view_task_item.view.*
 import kotlinx.android.synthetic.main.view_task_list_header.view.*
 
 /**
@@ -18,6 +19,12 @@ import kotlinx.android.synthetic.main.view_task_list_header.view.*
 class ProjectDetailAdapter : SectionedRecyclerViewAdapter<RecyclerView.ViewHolder>() {
 
     var taskLists: List<TaskList> = emptyList()
+
+    /**
+     * This function will be called when the [Task]s of the given [TaskList] need to be loaded.
+     * Implement it to load the tasks, set them in [TaskList.tasks] and [notifyDataSetChanged] to refresh the list.
+     */
+    var loadTasks: ((TaskList) -> Unit)?  = null
 
     enum class ViewType {
         TASK_LIST_HEADER, TASK_ITEM
@@ -31,7 +38,7 @@ class ProjectDetailAdapter : SectionedRecyclerViewAdapter<RecyclerView.ViewHolde
             ViewType.TASK_LIST_HEADER ->
                 TaskListHeaderHolder(parent.inflate(R.layout.view_task_list_header))
             ViewType.TASK_ITEM ->
-                TaskItemHolder(TextView(parent.context)) // TODO: inflate view
+                TaskItemHolder(parent.inflate(R.layout.view_task_item))
         }
     }
 
@@ -41,7 +48,11 @@ class ProjectDetailAdapter : SectionedRecyclerViewAdapter<RecyclerView.ViewHolde
 
     override fun getSectionCount() = taskLists.size
 
-    override fun getItemCount(section: Int) = taskLists[section].tasks?.size ?: 0
+    override fun getItemCount(section: Int) : Int {
+        val taskList = taskLists[section]
+        // Tasks are displayed if available and taskList wants to showTasks
+        return if (taskList.showTasks) taskList.tasks?.size ?: 0 else 0
+    }
 
     override fun getItemViewType(coord: ItemCoord): Int {
         return getViewType(coord).ordinal
@@ -54,17 +65,30 @@ class ProjectDetailAdapter : SectionedRecyclerViewAdapter<RecyclerView.ViewHolde
         when (getViewType(coord)) {
 
             ViewType.TASK_LIST_HEADER -> {
+
                 val holder = vh as TaskListHeaderHolder
                 holder.name.text = taskList.name
                 holder.numTasks.text = ProjectApp.instance.getString(R.string.number_of_tasks, taskList.numTasks)
+                holder.itemView.setOnClickListener({
+                    taskList.showTasks = !taskList.showTasks // toggle
+                    if (tasksShouldBeLoaded(taskList)) {
+                        loadTasks?.invoke(taskList)
+                    } else {
+                        notifyDataSetChanged() // to close taskList section
+                    }
+                })
             }
 
             ViewType.TASK_ITEM -> {
-                val textView = vh.itemView as TextView
-                textView.text = taskList.tasks?.get(coord.index)?.name
+                val holder = vh as TaskItemHolder
+                holder.content.text = taskList.tasks?.get(coord.index)?.content
             }
         }
     }
+
+    /** Tasks should be loaded if [TaskList] wants to showTasks and they are not available yet */
+    private fun tasksShouldBeLoaded(taskList: TaskList) =
+            taskList.showTasks && taskList.tasks == null
 
     private fun getViewType(coord: ItemCoord) : ViewType {
         return if (coord.header) ViewType.TASK_LIST_HEADER else ViewType.TASK_ITEM
@@ -78,5 +102,6 @@ class ProjectDetailAdapter : SectionedRecyclerViewAdapter<RecyclerView.ViewHolde
 
     class TaskItemHolder(view: View) : RecyclerView.ViewHolder(view) { // TODO
 
+        var content: TextView = view.content
     }
 }
