@@ -9,13 +9,21 @@ import kotlinx.android.synthetic.main.activity_project_detail.*
 /**
  * Displays details of a [Project].
  */
-class ProjectDetailActivity : BaseActivity() {
+class ProjectDetailActivity : BaseActivity<Project>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_project_detail)
         setSupportActionBar(toolbar)
 
-        title = "Project name" // TODO: display title and all the details
+        val project = getArgument()
+        title = project.name
+
+        setupViews(project)
+    }
+
+    private fun setupViews(project: Project) { // TODO
+
     }
 }
