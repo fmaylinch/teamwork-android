@@ -1,14 +1,21 @@
 package com.teamwork.android.views.project.list
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.teamwork.android.R
+import com.teamwork.android.model.Project
 import com.teamwork.android.views.BaseActivity
 import com.teamwork.android.model.ProjectList
+import com.teamwork.android.views.project.detail.ProjectDetailActivity
 import kotlinx.android.synthetic.main.activity_project_list.*
 import kotlinx.android.synthetic.main.content_project_list.*
 import rx.android.schedulers.AndroidSchedulers.mainThread
 
+/**
+ * List of [Project]s.
+ * When one is clicked [ProjectDetailActivity] is opened.
+ */
 class ProjectListActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +29,9 @@ class ProjectListActivity : BaseActivity() {
 
     private fun setupViews() {
 
-        project_list.adapter = ProjectListAdapter()
+        val adapter = ProjectListAdapter()
+        adapter.onItemClick = { displayProject(it) }
+        project_list.adapter = adapter
         project_list.layoutManager = LinearLayoutManager(this)
     }
 
@@ -42,5 +51,10 @@ class ProjectListActivity : BaseActivity() {
             (project_list.adapter as ProjectListAdapter).projects = projectList.projects
             project_list.adapter.notifyDataSetChanged()
         }
+    }
+
+    private fun displayProject(project: Project) {
+
+        startActivity(Intent(this, ProjectDetailActivity::class.java))
     }
 }

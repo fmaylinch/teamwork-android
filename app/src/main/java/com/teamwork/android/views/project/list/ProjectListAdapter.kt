@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.view_project_item.view.*
 class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ViewHolder>() {
 
     var projects: List<Project> = emptyList()
+    var onItemClick: ((Project) -> Unit)?  = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -26,6 +28,8 @@ class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ViewHolder>()
         val project = projects[position]
         holder.project.text = project.name
         holder.company.text = project.company.name
+
+        holder.itemView.setOnClickListener({ onItemClick?.invoke(project)})
     }
 
 
