@@ -2,14 +2,10 @@ package com.teamwork.android.util
 
 import android.app.Dialog
 import android.content.Context
-import android.util.Log
 import android.view.ViewGroup.LayoutParams
-import android.widget.ProgressBar
-
-import com.teamwork.android.R
-
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import com.teamwork.android.Constants.TAG
+import android.widget.ProgressBar
+import com.teamwork.android.R
 
 /**
  * Dialog to display while loading (e.g. network requests).
@@ -28,8 +24,6 @@ class LoadingDialog(context: Context) : Dialog(context, R.style.CustomDialog) {
 
         @JvmStatic
         fun safeDismiss(dialog: Dialog?) {
-
-            Log.i(TAG, "Hiding dialog")
 
             try {
                 dialog?.dismiss()

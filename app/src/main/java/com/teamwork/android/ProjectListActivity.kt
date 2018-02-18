@@ -3,7 +3,6 @@ package com.teamwork.android
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.teamwork.android.model.ProjectList
-import com.teamwork.android.util.RxUtil
 import kotlinx.android.synthetic.main.activity_project_list.*
 import kotlinx.android.synthetic.main.content_project_list.*
 import rx.android.schedulers.AndroidSchedulers.mainThread
@@ -28,11 +27,11 @@ class ProjectListActivity : BaseActivity() {
     private fun loadProjects() {
 
         api.projectList()
-                .compose(RxUtil.forUi(this))
+                .compose(forUi())
                 .observeOn(mainThread())
                 .subscribe(
                         { displayProjects(it) },
-                        { displayError(it) })
+                        { displayNetworkError(it) })
     }
 
     private fun displayProjects(projectList: ProjectList?) {

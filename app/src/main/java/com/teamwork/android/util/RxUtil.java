@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.teamwork.android.BaseActivity;
+import com.teamwork.android.R;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -74,6 +76,7 @@ public class RxUtil {
                     dialog.setCancelable(true);
                     dialog.setOnCancelListener(d -> {
                         subscriber.onNext("item");
+                        Toast.makeText(ctx, R.string.loading_canceled, Toast.LENGTH_SHORT).show();
                     });
                 });
             }
