@@ -22,7 +22,7 @@ class ProjectDetailActivity : BaseActivity<Project>() {
         setContentView(R.layout.activity_project_detail)
         setSupportActionBar(toolbar)
 
-        val project = getArgument()
+        val project = getArgument()!!
         title = project.name
 
         setupViews(project)
